@@ -816,7 +816,7 @@ function checkProgress() {
 function playSuccessSound() {
   try {
     // Play clapping sound from file
-    const clappingAudio = new Audio("sound/clappingsound.mp3");
+    const clappingAudio = new Audio("./public/sound/clappingsound.mp3");
     clappingAudio.play().catch(error => {
       console.log("Error playing clapping sound:", error);
       
@@ -945,7 +945,7 @@ function isCurrentArrangementCorrect() {
 /* Play instructions audio */
 function playInstructionsAudio() {
   // Try to play the instructions audio file first
-  const instructionsAudio = new Audio("sound/intro.mp3");
+  const instructionsAudio = new Audio("./public/sound/intro.mp3");
   
   instructionsAudio.onerror = () => {
     console.log("Instructions audio file not found or error playing, using speech synthesis instead");
