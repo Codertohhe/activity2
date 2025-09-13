@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>वर्णमाला – 2 (Varnamala - 2)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div>
+    <div class="title-bar">वर्णमाला – 2 (Varnamala - 2)</div>
+
+    <div class="instructions">
+      यहाँ वर्णमाला के दो समूह हैं। पहले स्वर (अ, आ, इ...) को सही क्रम में
+      लगाएं। सफल होने पर व्यंजन (क, ख, ग...) सक्रिय होंगे। अक्षर पर क्लिक करके
+      उसका उच्चारण सुनिए और ड्रैग/टैप-स्वैप से क्रम ठीक कीजिए।
+    </div>
+
+    <div class="board-wrap">
+      <img src="img/bg.png" class="background-image" alt="Background" />
+      <div class="panel">
+        <!-- Layout structure matching the image -->
+        <div class="letters-container">
+          <!-- Top section: Vowels in 2 rows (yellow) -->
+          <div class="vowel-section" id="vowelSection">
+            <div class="vowel-row" id="vowelRow1">
+              <div class="letter swar" data-letter="अ">अ</div>
+              <div class="letter swar" data-letter="आ">आ</div>
+              <div class="letter swar" data-letter="इ">इ</div>
+              <div class="letter swar" data-letter="ई">ई</div>
+              <div class="letter swar" data-letter="उ">उ</div>
+              <div class="letter swar" data-letter="ऊ">ऊ</div>
+              <div class="letter swar" data-letter="ऋ">ऋ</div>
+              <div class="letter swar" data-letter="ए">ए</div>
+            </div>
+            <div class="vowel-row" id="vowelRow2">
+              <div class="letter swar" data-letter="ऐ">ऐ</div>
+              <div class="letter swar" data-letter="ओ">ओ</div>
+              <div class="letter swar" data-letter="औ">औ</div>
+              <div class="letter swar" data-letter="अं">अं</div>
+              <div class="letter swar" data-letter="अः">अः</div>
+            </div>
+          </div>
+
+          <!-- Middle section: Consonants (gray) -->
+          <div class="consonant-section" id="consonantGrid">
+            <div class="letter vyanjan" data-letter="क">क</div>
+            <div class="letter vyanjan" data-letter="ख">ख</div>
+            <div class="letter vyanjan" data-letter="ग">ग</div>
+            <div class="letter vyanjan" data-letter="घ">घ</div>
+            <div class="letter vyanjan" data-letter="ङ">ङ</div>
+            <div class="letter vyanjan" data-letter="च">च</div>
+            <div class="letter vyanjan" data-letter="छ">छ</div>
+            <div class="letter vyanjan" data-letter="ज">ज</div>
+            <div class="letter vyanjan" data-letter="झ">झ</div>
+            <div class="letter vyanjan" data-letter="ञ">ञ</div>
+            <div class="letter vyanjan" data-letter="ट">ट</div>
+            <div class="letter vyanjan" data-letter="ठ">ठ</div>
+            <div class="letter vyanjan" data-letter="ड">ड</div>
+            <div class="letter vyanjan" data-letter="ढ">ढ</div>
+            <div class="letter vyanjan" data-letter="ण">ण</div>
+            <div class="letter vyanjan" data-letter="त">त</div>
+            <div class="letter vyanjan" data-letter="थ">थ</div>
+            <div class="letter vyanjan" data-letter="द">द</div>
+            <div class="letter vyanjan" data-letter="ध">ध</div>
+            <div class="letter vyanjan" data-letter="न">न</div>
+            <div class="letter vyanjan" data-letter="प">प</div>
+            <div class="letter vyanjan" data-letter="फ">फ</div>
+            <div class="letter vyanjan" data-letter="ब">ब</div>
+            <div class="letter vyanjan" data-letter="भ">भ</div>
+            <div class="letter vyanjan" data-letter="म">म</div>
+          </div>
+
+          <!-- Bottom section: Remaining consonants (gray) in two rows -->
+          <div class="bottom-section" id="bottomSection">
+            <div class="bottom-row" id="bottomRow1">
+              <div class="letter vyanjan" data-letter="य">य</div>
+              <div class="letter vyanjan" data-letter="र">र</div>
+              <div class="letter vyanjan" data-letter="ल">ल</div>
+              <div class="letter vyanjan" data-letter="व">व</div>
+              <div class="letter vyanjan" data-letter="श">श</div>
+              <div class="letter vyanjan" data-letter="ष">ष</div>
+              <div class="letter vyanjan" data-letter="स">स</div>
+              <div class="letter vyanjan" data-letter="ह">ह</div>
+            </div>
+            <div class="bottom-row" id="bottomRow2">
+              <div class="letter vyanjan" data-letter="क्ष">क्ष</div>
+              <div class="letter vyanjan" data-letter="त्र">त्र</div>
+              <div class="letter vyanjan" data-letter="ज्ञ">ज्ञ</div>
+              <div class="letter vyanjan" data-letter="श्र">श्र</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message Box -->
+        <div class="error-message-box" id="errorMessageBox">
+          <div class="error-message-content">
+            ओफो! आप खेल को पूरा नही कर पाए। घेरे में दिखाए गए अक्षर गलत स्थान पर
+            हैं। दोबारा कोशिश कीजिए!
+          </div>
+          <button class="error-ok-btn" id="errorOkBtn">OK</button>
+        </div>
+
+        <!-- Success Message Box -->
+        <div class="success-message-box" id="successMessageBox">
+          <div class="success-message-content">
+            बहुत अच्छी तरह भाग के सभी अक्षरों को आपने ठीक ठीक पहचान लिया।
+          </div>
+          <button class="success-ok-btn" id="successOkBtn">OK</button>
+        </div>
+
+        <!-- tyre Done -->
+        <button class="done-tyre" id="doneBtn" title="Done">
+          <span>Done</span>
+        </button>
+      </div>
+    </div>
+
+    <footer class="page-footer"></footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

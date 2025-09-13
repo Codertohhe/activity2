@@ -1,0 +1,515 @@
+:root {
+  --blue: #1f66c3;
+  --yellow: #f7c54b;
+  --yellow-dark: #e8b32d;
+  --grey: #e9e9e9;
+  --grey-dark: #d6d6d6;
+  --tyre: #6b6b6b;
+}
+* {
+  box-sizing: border-box;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+body {
+  margin: 0;
+  font-family: "Noto Sans Devanagari", Arial, sans-serif;
+  color: #104b6f;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.title-bar {
+  margin: 10px auto 5px;
+  width: max-content;
+  background: var(--blue);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.instructions {
+  text-align: center;
+  max-width: 980px;
+  margin: 4px auto 8px;
+  line-height: 1.4;
+  color: #2a6b82;
+  font-size: 0.95em;
+}
+.speak-btn {
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  background: #fff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+/* Blue board + inner white panel */
+.board-wrap {
+  width: 980px;
+  max-width: 51vw;
+  min-height: 581px;
+  margin: 0 auto 10px;
+  border-radius: 18px;
+  padding: 0; /* Remove padding, the panel will handle it */
+  position: relative;
+  overflow: hidden; /* Hide anything overflowing the image */
+  display: block;
+}
+
+.board-wrap .background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Keeps full image visible, no cropping */
+  z-index: 0;
+}
+
+.panel {
+  position: relative;
+  z-index: 1; /* Ensure panel content is above the background image */
+  /* background: #fff; */
+  border-radius: 16px;
+  padding: 16px 16px 50px;
+  min-height: 380px;
+  width: 100%;
+  max-width: 800px;
+  display: block;
+}
+
+/* Progress text */
+.progress-text {
+  text-align: center;
+  margin: 4px 0 10px;
+  color: #2a6b82;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* Footer */
+.page-footer {
+  width: 100%;
+  height: 85px;
+  background-image: url("./img/footer-bg-compressed.png"); /* replace with your footer bg image */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  margin-top: auto; /* pushes footer to bottom */
+}
+
+.page-footer img {
+  width: 100%;
+  max-width: 980px; /* same as board width */
+  height: auto;
+  display: block; /* removes extra gap */
+}
+
+/* Layout Container */
+.letters-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 10px;
+  max-width: 600px;
+  width: 100%;
+  /* margin-left: 8%; */
+}
+
+/* Top section - vowels in 2 rows */
+.vowel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  margin-right: 0;
+  width: 100%;
+  padding-left: 20px;
+}
+
+@media (max-width: 700px) {
+  .vowel-section {
+    gap: 8px;
+    margin-right: 0;
+  }
+}
+
+.vowel-row {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-start;
+}
+#vowelRow2 {
+  justify-content: flex-start; /* left align items in row */
+  width: 100%; /* take full width of container */
+}
+
+.vowel-section #vowelRow2 {
+  align-self: flex-start; /* left align with parent */
+}
+
+.vowel-row:first-child {
+  /* First row: 8 vowels */
+}
+
+.vowel-row:last-child {
+  /* Second row: 5 vowels */
+}
+
+/* Middle section - consonants in 5x5 grid */
+.consonant-section {
+  display: grid;
+  grid-template-columns: repeat(5, 48px);
+  gap: 6px;
+  justify-content: flex-start; /* left align grid */
+  margin: 15px 0;
+  width: 100%; /* take full width */
+  align-self: flex-start; /* left align in parent */
+  padding-left: 20px; /* add left padding */
+}
+
+/* Bottom section - remaining consonants in 2 rows */
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start; /* left align rows */
+  width: 100%;
+  padding-left: 20px; /* add left padding */
+}
+
+.bottom-row {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-start; /* left align letters */
+  width: 100%;
+}
+
+/* Letter circles */
+.letter {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Vowels (active/yellow) */
+.letter.swar {
+  background: #fce488;
+  border: 2px solid var(--yellow-dark);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    0 2px 0 rgba(0, 0, 0, 0.08);
+  color: black;
+  cursor: grab;
+}
+.letter.swar:active {
+  cursor: grabbing;
+}
+.letter.swar.selected {
+  outline: 3px solid #2ecc71;
+}
+
+/* Vowels when disabled (after consonants phase starts) */
+.letter.swar.disabled {
+  background: var(--grey);
+  color: #a7a7a7;
+  border: 2px solid var(--grey-dark);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Consonants (inactive/gray initially) */
+.letter.vyanjan {
+  background: var(--grey);
+  color: #a7a7a7;
+  border: 2px solid var(--grey-dark);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Consonants when activated */
+.letter.vyanjan.active {
+  background: #fce488;
+  border: 2px solid var(--yellow-dark);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    0 2px 0 rgba(0, 0, 0, 0.08);
+  color: #693f00;
+  cursor: grab;
+}
+.letter.vyanjan.active:active {
+  cursor: grabbing;
+}
+.letter.vyanjan.active.selected {
+  outline: 3px solid #2ecc71;
+}
+
+/* Correct position indicator */
+.letter.correct {
+  outline: 2px solid #27ae60 !important;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    0 2px 0 rgba(0, 0, 0, 0.08), 0 0 10px rgba(39, 174, 96, 0.3) !important;
+}
+
+.letter.speaking {
+  animation: pulse 0.8s infinite alternate;
+  box-shadow: 0 0 8px #ff9800;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+/* Done button */
+.done-tyre {
+  position: absolute;
+  right: 15px;
+  top: 75%;
+  width: 250px; /* bigger tyre */
+  height: 250px;
+  background-image: url("./img/tyer1.png"); /* use your new transparent tyre image */
+  background-size: cover; /* fill the whole area */
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  border: none;
+  background-color: transparent; /* remove gray */
+}
+
+.done-tyre span {
+  /* background-color: #ffffff; */
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-top: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: #b11616;
+  font-size: 23px; /* larger text to match tyre size */
+  text-align: center;
+  text-shadow: 0 1px 2px #fff;
+  line-height: 1; /* avoid shifting */
+}
+
+/* Message popup styles */
+.message-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 25px 35px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  max-width: 90vw;
+  animation: popupSlide 0.3s ease-out;
+}
+
+/* Error Message Box styles */
+.error-message-box {
+  position: absolute;
+  top: 44%;
+  left: 71%;
+  transform: translate(-50%, -50%);
+  background: url("img/messagebg.png") no-repeat center center;
+  background-size: 120% 120%; /* Increased background size */
+  width: 425px; /* Set explicit width */
+  height: 400px; /* Set explicit height */
+  padding: 60px 40px 40px; /* Increased padding */
+  text-align: center;
+  z-index: 100;
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message-content {
+  font: bolder;
+  color: #0672ac;
+  font-size: 20px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  padding: 0 10px;
+  word-break: break-word;
+  max-width: 250px;
+}
+
+.error-ok-btn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  width: 70px;
+}
+
+.error-ok-btn:hover {
+  background-color: #0b7dda;
+}
+
+/* Success Message Box styles */
+.success-message-box {
+  position: absolute;
+  top: 45%;
+  left: 76%;
+  transform: translate(-50%, -50%);
+  background: url("img/messagebg.png") no-repeat center center;
+  background-size: 120% 120%;
+  width: 630px;
+  height: 400px;
+  padding: 60px 40px 40px;
+  text-align: center;
+  z-index: 100;
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.success-message-content {
+  font: bolder;
+  color: #0672ac;
+  font-size: 20px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  padding: 0 10px;
+  word-break: break-word;
+  max-width: 250px;
+}
+
+.success-ok-btn {
+  background-color: #4caf50; /* Green color for success */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  width: 70px;
+}
+
+.success-ok-btn:hover {
+  background-color: #45a049;
+}
+
+.message-popup.success {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.message-popup.error {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+@keyframes popupSlide {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Responsive tweaks */
+@media (max-width: 700px) {
+  .consonant-section {
+    grid-template-columns: repeat(5, 54px);
+    gap: 8px;
+  }
+  .letter {
+    width: 54px;
+    height: 54px;
+    font-size: 20px;
+  }
+  .done-tyre {
+    width: 84px;
+    height: 84px;
+  }
+  .message-popup {
+    font-size: 16px;
+    padding: 20px 25px;
+  }
+  .vowel-row,
+  .bottom-row {
+    gap: 8px;
+  }
+}
+.letter.wrong-position {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e) !important;
+  border: 2px solid #ff0000 !important;
+  animation: shake 0.5s ease-in-out;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5) !important;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.letter.wrong-position:hover {
+  transform: scale(1.1);
+}
