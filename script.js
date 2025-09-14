@@ -816,7 +816,7 @@ function checkProgress() {
 function playSuccessSound() {
   try {
     // Play clapping sound from file - use path that works in both localhost and production
-    const clappingAudio = new Audio("sound/clappingsound.mp3");
+    const clappingAudio = new Audio("/sound/clappingsound.mp3");
     clappingAudio.play().catch((error) => {
       console.log("Error playing clapping sound:", error);
 
@@ -952,28 +952,29 @@ function isCurrentArrangementCorrect() {
 
 /* Play instructions audio */
 function playInstructionsAudio() {
-  const instructionsAudio = new Audio("./sound/intro.mp3");
+  const instructionsAudio = new Audio("/sound/intro.mp3");
 
   instructionsAudio.onerror = () => {
     console.log("Error: audio not found, using speech synthesis.");
-    const msg = new SpeechSynthesisUtterance(
-      "यहाँ वर्णमाला के दो समूह हैं। पहले स्वर को सही क्रम में रखें, फिर व्यंजन को।"
-    );
-    msg.lang = "hi-IN";
-    speechSynthesis.speak(msg);
+    speakFallback();
   };
 
   instructionsAudio.play().catch((error) => {
-    console.log("Error playing audio:", error);
-    const msg = new SpeechSynthesisUtterance(
-      "यहाँ वर्णमाला के दो समूह हैं। पहले स्वर को सही क्रम में रखें, फिर व्यंजन को।"
-    );
-    msg.lang = "hi-IN";
-    speechSynthesis.speak(msg);
+    console.log("Autoplay blocked, falling back:", error);
+    speakFallback();
   });
 
   console.log("Attempting to play intro.mp3");
 }
+
+function speakFallback() {
+  const msg = new SpeechSynthesisUtterance(
+    "यहाँ वर्णमाला के दो समूह हैं। पहले स्वर को सही क्रम में रखें, फिर व्यंजन को।"
+  );
+  msg.lang = "hi-IN";
+  speechSynthesis.speak(msg);
+}
+
 
 $("#doneBtn").addEventListener("click", () => {
   console.log(`Done button clicked. Current phase: ${currentPhase}`); // Debug log
