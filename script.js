@@ -187,13 +187,13 @@ function showMessage(text, type = "info") {
 /* Show error message box */
 function showErrorBox() {
   console.log("Showing error message box"); // Debug log
-  
+
   // Get the error message box element
   const errorBox = $("#errorMessageBox");
-  
+
   // Show the error box with flex display
   errorBox.style.display = "flex";
-  
+
   // Add event listener to OK button
   $("#errorOkBtn").addEventListener("click", () => {
     // Hide the error box when OK is clicked
@@ -204,13 +204,13 @@ function showErrorBox() {
 /* Show success message box */
 function showSuccessBox() {
   console.log("Showing success message box"); // Debug log
-  
+
   // Get the success message box element
   const successBox = $("#successMessageBox");
-  
+
   // Show the success box with flex display
   successBox.style.display = "flex";
-  
+
   // Add event listener to OK button
   $("#successOkBtn").addEventListener("click", () => {
     // Hide the success box when OK is clicked
@@ -817,11 +817,12 @@ function playSuccessSound() {
   try {
     // Play clapping sound from file - use path that works in both localhost and production
     const clappingAudio = new Audio("sound/clappingsound.mp3");
-    clappingAudio.play().catch(error => {
+    clappingAudio.play().catch((error) => {
       console.log("Error playing clapping sound:", error);
-      
+
       // Fallback to generated tone if audio file fails
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -829,8 +830,14 @@ function playSuccessSound() {
       gainNode.connect(audioContext.destination);
 
       oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
-      oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
-      oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
+      oscillator.frequency.setValueAtTime(
+        659.25,
+        audioContext.currentTime + 0.1
+      );
+      oscillator.frequency.setValueAtTime(
+        783.99,
+        audioContext.currentTime + 0.2
+      );
 
       oscillator.type = "sine";
       gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
@@ -851,11 +858,12 @@ function playCompletionSound() {
   try {
     // Play clapping sound from file - use consistent path
     const clappingAudio = new Audio("sound/clappingsound.mp3");
-    clappingAudio.play().catch(error => {
+    clappingAudio.play().catch((error) => {
       console.log("Error playing clapping sound:", error);
-      
+
       // Fallback to generated tone if audio file fails
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
       const notes = [523.25, 659.25, 783.99, 1046.5];
 
       notes.forEach((freq, index) => {
@@ -944,34 +952,28 @@ function isCurrentArrangementCorrect() {
 
 /* Play instructions audio */
 function playInstructionsAudio() {
-  // Try to play the instructions audio file first - use path that works in both localhost and production
-  const instructionsAudio = new Audio("intro.mp3");
-  
+  const instructionsAudio = new Audio("./sound/intro.mp3");
+
   instructionsAudio.onerror = () => {
-    console.log("Instructions audio file not found or error playing, using speech synthesis instead");
-    // Fallback to speech synthesis if audio file fails
+    console.log("Error: audio not found, using speech synthesis.");
     const msg = new SpeechSynthesisUtterance(
       "यहाँ वर्णमाला के दो समूह हैं। पहले स्वर को सही क्रम में रखें, फिर व्यंजन को।"
     );
     msg.lang = "hi-IN";
     speechSynthesis.speak(msg);
   };
-  
-  instructionsAudio.play().catch(error => {
-    console.log("Error playing instructions audio:", error);
-    // Fallback to speech synthesis if audio file fails
+
+  instructionsAudio.play().catch((error) => {
+    console.log("Error playing audio:", error);
     const msg = new SpeechSynthesisUtterance(
       "यहाँ वर्णमाला के दो समूह हैं। पहले स्वर को सही क्रम में रखें, फिर व्यंजन को।"
     );
     msg.lang = "hi-IN";
     speechSynthesis.speak(msg);
   });
-  
-  // Add debug log to confirm function is called
+
   console.log("Attempting to play intro.mp3");
 }
-
-
 
 $("#doneBtn").addEventListener("click", () => {
   console.log(`Done button clicked. Current phase: ${currentPhase}`); // Debug log
@@ -995,7 +997,7 @@ $("#doneBtn").addEventListener("click", () => {
       playErrorSound();
       // NEW: Mark wrong positioned letters
       markWrongPositions();
-      
+
       // Show error message box instead of gradient message
       showErrorBox();
       return;
@@ -1013,7 +1015,7 @@ $("#doneBtn").addEventListener("click", () => {
       playErrorSound();
       // NEW: Mark wrong positioned letters
       markWrongPositions();
-      
+
       // Show error message box instead of gradient message
       showErrorBox();
       return;
@@ -1032,7 +1034,7 @@ $("#doneBtn").addEventListener("click", () => {
       playErrorSound();
       // NEW: Mark wrong positioned letters
       markWrongPositions();
-      
+
       // Show error message box instead of gradient message
       showErrorBox();
       return;
@@ -1066,7 +1068,7 @@ function initializeAudioOnInteraction() {
   // Remove the initialization event listeners once initialized
   document.removeEventListener("click", initializeAudioOnInteraction);
   document.removeEventListener("touchstart", initializeAudioOnInteraction);
-  
+
   // No need to play instructions on first interaction as it now plays automatically on page load
 }
 
@@ -1078,7 +1080,7 @@ document.addEventListener("touchstart", initializeAudioOnInteraction);
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM loaded, initializing grid...");
   initializeGrid();
-  
+
   // Play instructions audio automatically when page loads
   setTimeout(() => {
     playInstructionsAudio();
@@ -1092,7 +1094,7 @@ if (document.readyState === "loading") {
   // DOM is already loaded
   console.log("DOM already loaded, initializing grid immediately...");
   initializeGrid();
-  
+
   // Play instructions audio automatically when page loads
   setTimeout(() => {
     playInstructionsAudio();
