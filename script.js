@@ -815,8 +815,8 @@ function checkProgress() {
 /* Audio functions */
 function playSuccessSound() {
   try {
-    // Play clapping sound from file
-    const clappingAudio = new Audio("/sound/clappingsound.mp3");
+    // Play clapping sound from file - use path that works in both localhost and production
+    const clappingAudio = new Audio("sound/clappingsound.mp3");
     clappingAudio.play().catch(error => {
       console.log("Error playing clapping sound:", error);
       
@@ -849,7 +849,7 @@ function playSuccessSound() {
 
 function playCompletionSound() {
   try {
-    // Play clapping sound from file
+    // Play clapping sound from file - use consistent path
     const clappingAudio = new Audio("sound/clappingsound.mp3");
     clappingAudio.play().catch(error => {
       console.log("Error playing clapping sound:", error);
@@ -944,8 +944,8 @@ function isCurrentArrangementCorrect() {
 
 /* Play instructions audio */
 function playInstructionsAudio() {
-  // Try to play the instructions audio file first
-  const instructionsAudio = new Audio("/sound/intro.mp3");
+  // Try to play the instructions audio file first - use path that works in both localhost and production
+  const instructionsAudio = new Audio("intro.mp3");
   
   instructionsAudio.onerror = () => {
     console.log("Instructions audio file not found or error playing, using speech synthesis instead");
